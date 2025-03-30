@@ -1,5 +1,5 @@
-import type { Request, Response } from "express";
-import { DiscordService, GitHubService } from "../services";
+import type { Request, Response } from "express"
+import { DiscordService, GitHubService } from "../services"
 
 export class GithubController {
 
@@ -9,28 +9,28 @@ export class GithubController {
     ){}
 
     webhookHandler = (req: Request, res: Response) => {
-        const githubEvent = req.header('x-github-event') ?? 'unknown';
-        const payload = req.body;
+        const githubEvent = req.header('x-github-event') ?? 'unknown'
+        const payload = req.body
 
-        let message: string = '';
+        let message: string = ''
 
         switch (githubEvent) {
             case 'star':
-                message = this.githubService.onStart(payload);
-                break;
+                message = this.githubService.onStart(payload)
+                break
 
             case 'issues':
-                message = this.githubService.onIssue(payload);
-                break;
+                message = this.githubService.onIssue(payload)
+                break
 
             default:
-                message = `Unknown event ${githubEvent}...`;
-                break;
+                message = `Unknown event ${githubEvent}...`
+                break
         }
 
         
         this.discordService.notify(message)
             .then(() => res.status(202).send({ message }))
             .catch(() => res.status(500).json({ error: 'Internal server error' }))
-    };
+    }
 }
