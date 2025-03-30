@@ -24,7 +24,7 @@ export class GithubController {
                 break;
 
             default:
-                message = `Unknown event ${githubEvent}.`;
+                message = `Unknown event ${githubEvent}...`;
                 break;
         }
 
